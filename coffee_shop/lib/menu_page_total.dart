@@ -15,6 +15,11 @@ class _OrderTotalState extends State<OrderTotal> {
   Widget build(BuildContext context) {
     var state = Provider.of<AllOrdersState>(context);
     return ElevatedButton.icon(
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(
+          const EdgeInsets.all(18.0), // Set your desired padding values
+        ),
+      ),
       icon: const Icon(
         Icons.paid,
         color: Colors.white,

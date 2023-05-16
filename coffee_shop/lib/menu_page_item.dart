@@ -48,7 +48,7 @@ class SingleItemDisplay extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               Text(
-                "\$${menuOption.basePrice}",
+                "\$${menuOption.basePrice.toStringAsFixed(2)}",
                 style:
                     const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
                 textAlign: TextAlign.end,
