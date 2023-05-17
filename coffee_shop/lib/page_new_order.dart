@@ -72,39 +72,47 @@ class ContentOnLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              constraints: const BoxConstraints(maxWidth: 400),
               child: BaseItemDisplay(
                 order: orderBase,
                 maxWidth: null,
               ),
             ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Expanded(
-              child: ListView(
-                shrinkWrap: true,
+            const SizedBox(
+              width: 20,
+            ),
+            Container(
+              constraints: const BoxConstraints(maxWidth: 400),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   if (orderBase.getType() == "drink")
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      width: 400,
+                      child: StyleSelector(orderBase),
                     ),
-                  if (orderBase.getType() == "drink") StyleSelector(orderBase),
-                  if (orderBase.getType() == "drink") SizeSelector(orderBase),
-                  ToppingSelector(orderBase),
+                  if (orderBase.getType() == "drink")
+                    SizedBox(
+                      width: 400,
+                      child: SizeSelector(orderBase),
+                    ),
+                  SizedBox(
+                    width: 400,
+                    child: ToppingSelector(orderBase),
+                  ),
                 ],
               ),
             ),
-          )
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -140,22 +148,6 @@ class Content extends StatelessWidget {
             ],
           )),
         ),
-        //       child: ListView(
-        //         shrinkWrap: true,
-        //         children: [
-        //           BaseItemDisplay(order: orderBase, maxWidth: null),
-        //           if (orderBase.getType() == "drink")
-        //             const SizedBox(
-        //               height: 10,
-        //             ),
-        //           if (orderBase.getType() == "drink") StyleSelector(orderBase),
-        //           if (orderBase.getType() == "drink") SizeSelector(orderBase),
-        //           ToppingSelector(orderBase),
-        //           const TotalButton(),
-        //         ],
-        //       ),
-        //     ),
-        //   ],
       ),
     );
   }

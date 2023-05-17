@@ -34,7 +34,6 @@ class _ToppingSelectorState extends State<ToppingSelector> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
-        width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

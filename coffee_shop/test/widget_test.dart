@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:coffee_shop/domain/concrete/drink_order.dart';
+import 'package:coffee_shop/domain/concrete/enums.dart';
+import 'package:coffee_shop/size_selector.dart';
+import 'package:coffee_shop/viewmodels/new_order_viewmodel.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:coffee_shop/main.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('SizeSelector test', (WidgetTester tester) async {
+    var orderState = NewOrderState(MenuOption.coffee);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider<NewOrderState>.value(value: orderState),
+        ],
+        child: MaterialApp(
+          home: SizeSelector(DrinkOrder(MenuOption.coffee)),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Test if "Size" title exists.
+    expect(find.text('Size'), findsOneWidget);
+
+    // Tap on the Size S option and verify the selection.
+    await tester.tap(find.text('Size S'));
     await tester.pump();
+    expect(orderState.getDrinkSize(), DrinkSizeOption.s);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Tap on the Size M option and verify the selection.
+    await tester.tap(find.text('Size M'));
+    await tester.pump();
+    expect(orderState.getDrinkSize(), DrinkSizeOption.m);
   });
 }

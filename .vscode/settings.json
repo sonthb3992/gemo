@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/code/gemo/coffee_shop/windows"
+    "cmake.sourceDirectory": "D:/code/gemo/coffee_shop/windows",
+    "cmake.configureOnOpen": false
 }

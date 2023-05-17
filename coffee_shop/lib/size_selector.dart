@@ -23,144 +23,91 @@ class _SizeSelectorState extends State<SizeSelector> {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          const Text(
+            "Size",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ListView.builder(
+            itemCount: 4,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              DrinkSizeOption option = DrinkSizeOption.none;
+              if (index == 0) {
+                option = DrinkSizeOption.s;
+              } else if (index == 1) {
+                option = DrinkSizeOption.m;
+              } else if (index == 2) {
+                option = orderState.getDrinkType().name.toLowerCase() == "hot"
+                    ? DrinkSizeOption.none
+                    : DrinkSizeOption.l;
+              } else if (index == 3) {
+                option = orderState.getDrinkType().name.toLowerCase() == "hot"
+                    ? DrinkSizeOption.none
+                    : DrinkSizeOption.xl;
+              }
+              return option == DrinkSizeOption.none
+                  ? Container()
+                  : DrinkSizeItem(
+                      option: option,
+                      selectedOption: drinkSize,
+                      onChanged: (value) {
+                        setState(() {
+                          drinkSize = value;
+                          if (drinkSize != null) {
+                            orderState.setDrinkSize(drinkSize!);
+                          }
+                        });
+                      });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DrinkSizeItem extends StatelessWidget {
+  final DrinkSizeOption option;
+  final DrinkSizeOption? selectedOption;
+  final Function(DrinkSizeOption?) onChanged;
+
+  const DrinkSizeItem({
+    super.key,
+    required this.option,
+    required this.selectedOption,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      child: InkWell(
+        onTap: () {
+          onChanged(option);
+        },
+        child: Row(
           children: [
-            const Text(
-              "Size",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Radio<DrinkSizeOption>(
+              value: option,
+              groupValue: selectedOption,
+              onChanged: onChanged,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  drinkSize = DrinkSizeOption.s;
-                  orderState.setDrinkSize(drinkSize!);
-                });
-              },
-              child: Row(
-                children: [
-                  Radio<DrinkSizeOption>(
-                    value: DrinkSizeOption.s,
-                    groupValue: drinkSize,
-                    onChanged: (value) {
-                      setState(() {
-                        drinkSize = value;
-                        orderState.setDrinkSize(drinkSize!);
-                      });
-                    },
-                  ),
-                  const Expanded(
-                      child: Text(
-                    "Size S",
-                    style: TextStyle(fontSize: 18),
-                  )),
-                  Text(
-                    "+\$${(DrinkSizeOption.s.basePrice).toStringAsFixed(2)}",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
+            Expanded(
+              child: Text(
+                "Size ${option.name}",
+                style: const TextStyle(fontSize: 18),
               ),
             ),
-            InkWell(
-              onTap: () {
-                setState(() {
-                  drinkSize = DrinkSizeOption.m;
-                  orderState.setDrinkSize(drinkSize!);
-                });
-              },
-              child: Row(
-                children: [
-                  Radio<DrinkSizeOption>(
-                    value: DrinkSizeOption.m,
-                    groupValue: drinkSize,
-                    onChanged: (value) {
-                      setState(() {
-                        drinkSize = value;
-                        orderState.setDrinkSize(drinkSize!);
-                      });
-                    },
-                  ),
-                  const Expanded(
-                      child: Text(
-                    "Size M",
-                    style: TextStyle(fontSize: 18),
-                  )),
-                  Text(
-                    "+\$${(DrinkSizeOption.m.basePrice).toStringAsFixed(2)}",
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                ],
-              ),
+            Text(
+              "+\$${option.basePrice.toStringAsFixed(2)}",
+              style: const TextStyle(fontSize: 18),
             ),
-            if (orderState.getDrinkType() == DrinkTypeOption.cold ||
-                orderState.getDrinkType() == DrinkTypeOption.blended)
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    drinkSize = DrinkSizeOption.l;
-                    orderState.setDrinkSize(drinkSize!);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Radio<DrinkSizeOption>(
-                      value: DrinkSizeOption.l,
-                      groupValue: drinkSize,
-                      onChanged: (value) {
-                        setState(() {
-                          drinkSize = value;
-                          orderState.setDrinkSize(drinkSize!);
-                        });
-                      },
-                    ),
-                    const Expanded(
-                        child: Text(
-                      "Size L",
-                      style: TextStyle(fontSize: 18),
-                    )),
-                    Text(
-                        "+\$${(DrinkSizeOption.l.basePrice).toStringAsFixed(2)}",
-                        style: const TextStyle(fontSize: 18))
-                  ],
-                ),
-              ),
-            if (orderState.getDrinkType() == DrinkTypeOption.cold ||
-                orderState.getDrinkType() == DrinkTypeOption.blended)
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    drinkSize = DrinkSizeOption.xl;
-                    orderState.setDrinkSize(drinkSize!);
-                  });
-                },
-                child: Row(
-                  children: [
-                    Radio<DrinkSizeOption>(
-                      value: DrinkSizeOption.xl,
-                      groupValue: drinkSize,
-                      onChanged: (value) {
-                        setState(() {
-                          drinkSize = value;
-                          orderState.setDrinkSize(drinkSize!);
-                        });
-                      },
-                    ),
-                    const Expanded(
-                        child: Text(
-                      "Size XL",
-                      style: TextStyle(fontSize: 18),
-                    )),
-                    Text(
-                        "+\$${(DrinkSizeOption.xl.basePrice).toStringAsFixed(2)}",
-                        style: const TextStyle(fontSize: 18))
-                  ],
-                ),
-              ),
           ],
         ),
       ),

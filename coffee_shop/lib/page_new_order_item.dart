@@ -17,12 +17,10 @@ class _BaseItemDisplayState extends State<BaseItemDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: widget.maxWidth == null
-          ? const BoxConstraints(maxWidth: double.infinity)
-          : BoxConstraints(maxWidth: widget.maxWidth!),
-      child: SingleChildScrollView(
-        child: Column(children: [
+    return SizedBox(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
           Padding(
               padding: const EdgeInsets.all(10.0),
               child: widget.order.getBaseItem().imageUrl.isNotEmpty
@@ -72,7 +70,7 @@ class _BaseItemDisplayState extends State<BaseItemDisplay> {
               ],
             ),
           ),
-        ]),
+        ],
       ),
     );
   }
