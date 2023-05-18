@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "64160194781",
+    "project_id": "gemo-lab3",
+    "storage_bucket": "gemo-lab3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64160194781:android:3ac13a1364a06b4f613b34",
+        "android_client_info": {
+          "package_name": "com.example.coffee_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64160194781-mclgqkqd1j9u5s8vorrvgobb4c30g5du.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5DgnCBG1eD8Ysg3QrXP2HV8QK6QaIbSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64160194781-mclgqkqd1j9u5s8vorrvgobb4c30g5du.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
