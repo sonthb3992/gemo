@@ -1,10 +1,10 @@
 import 'package:coffee_shop/domain/concrete/enums.dart';
 import 'package:coffee_shop/menu_page_item.dart';
 import 'package:coffee_shop/menu_page_total.dart';
-import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'controls/language_button.dart';
 import 'custom_drawer.dart';
 
 class MenuPage extends StatefulWidget {
@@ -25,33 +25,17 @@ class _MenuPageState extends State<MenuPage> {
   ];
   List<MenuOption> filteredOptions = options;
 
+  void setTitle() {
+    setState(() {
+      title = filter.tr;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title), actions: [
-        FilledButton(
-          onPressed: () {
-            if (Get.locale!.languageCode == "en") {
-              Locale newLocale = const Locale("vi", "VN");
-              Get.updateLocale(newLocale);
-            } else {
-              Locale newLocale = const Locale("en", "US");
-              Get.updateLocale(newLocale);
-            }
-            setState(() {
-              title = filter.tr;
-            });
-          },
-          child: (Get.locale!.languageCode == "en")
-              ? Flag.fromCode(
-                  FlagsCode.VN,
-                  width: 20,
-                )
-              : Flag.fromCode(
-                  FlagsCode.US,
-                  width: 20,
-                ),
-        ),
+        LanguageButton(setTitle),
       ]),
       drawer: CustomDrawer(
         //headerTitle: headerTitle,
