@@ -1,9 +1,10 @@
-import 'package:coffee_shop/page_new_order_item.dart';
-import 'package:coffee_shop/size_selector.dart';
+import 'package:coffee_shop/controls/page_new_order_base_item.dart';
+import 'package:coffee_shop/controls/size_selector.dart';
 import 'package:coffee_shop/style_selector.dart';
 import 'package:coffee_shop/topping_selector.dart';
 import 'package:coffee_shop/viewmodels/new_order_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'domain/base/oder_base.dart';
 
@@ -41,11 +42,15 @@ class _NewOrderContentState extends State<NewOrderContent> {
     return MediaQuery.of(context).size.width > 820;
   }
 
+  bool isEn = Get.locale!.languageCode == "en";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.order.getBaseItem().name),
+        title: Text(isEn
+            ? widget.order.getBaseItem().name
+            : widget.order.getBaseItem().nameVi),
       ),
       body: ListView(children: [
         isBigSize()
@@ -131,8 +136,7 @@ class Content extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(18.0, 8, 18, 8),
           child: Center(
-              child: ListView(
-            shrinkWrap: true,
+              child: Column(
             children: [
               BaseItemDisplay(
                 order: orderBase,

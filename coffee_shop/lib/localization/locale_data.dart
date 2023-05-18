@@ -8,12 +8,18 @@ class AppMessages extends Translations {
           "drink": "Drink",
           "breakfast": "Breakfast",
           "drawer_header": "Menu categories",
+          "serving_style": "Serving Style",
+          "price": "Price",
+          "size": "Size",
         },
         "vi_VN": {
           "all_items": "Tất cả",
           "drink": "Đồ uống",
           "breakfast": "Bánh & Snack",
           "drawer_header": "Nhóm sản phẩm",
+          "serving_style": "Loại đồ uống",
+          "price": "Giá",
+          "size": "Cỡ",
         }
       };
 }

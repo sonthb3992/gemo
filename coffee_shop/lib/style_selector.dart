@@ -1,5 +1,6 @@
 import 'package:coffee_shop/viewmodels/new_order_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'domain/base/oder_base.dart';
@@ -22,12 +23,12 @@ class _StyleSelectorState extends State<StyleSelector> {
 
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: ListView(
-        shrinkWrap: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Serving Style",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            "serving_style".tr,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 10,
@@ -35,6 +36,7 @@ class _StyleSelectorState extends State<StyleSelector> {
           ListView.builder(
               shrinkWrap: true,
               itemCount: 3,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 DrinkTypeOption option = DrinkTypeOption.none;
                 if (index == 0) {

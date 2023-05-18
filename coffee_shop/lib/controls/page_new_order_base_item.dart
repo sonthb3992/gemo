@@ -1,5 +1,6 @@
 import 'package:coffee_shop/domain/base/oder_base.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BaseItemDisplay extends StatefulWidget {
   const BaseItemDisplay(
@@ -14,12 +15,12 @@ class BaseItemDisplay extends StatefulWidget {
 
 class _BaseItemDisplayState extends State<BaseItemDisplay> {
   bool isFavorited = false;
+  bool isEn = Get.locale!.languageCode == "en";
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      child: ListView(
-        shrinkWrap: true,
+      child: Column(
         children: [
           Padding(
               padding: const EdgeInsets.all(10.0),
@@ -30,12 +31,14 @@ class _BaseItemDisplayState extends State<BaseItemDisplay> {
                     )
                   : const Icon(Icons.broken_image)),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.fromLTRB(10.0, 10, 10, 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.order.getBaseItem().name,
+                  isEn
+                      ? widget.order.getBaseItem().name
+                      : widget.order.getBaseItem().nameVi,
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold),
                 ),
@@ -62,7 +65,7 @@ class _BaseItemDisplayState extends State<BaseItemDisplay> {
             child: Row(
               children: [
                 Text(
-                  "Price: \$${widget.order.getBaseItem().basePrice.toStringAsFixed(2)}",
+                  "${'price'.tr}: \$${widget.order.getBaseItem().basePrice.toStringAsFixed(2)}",
                   style: const TextStyle(
                     fontSize: 18,
                   ),

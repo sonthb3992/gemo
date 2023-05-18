@@ -35,8 +35,8 @@ class _MenuPageState extends State<MenuPage> {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return const Column(
-          children: [
+        return Column(
+          children: const [
             Text('Popup Content'),
             // Add additional widgets as needed
           ],

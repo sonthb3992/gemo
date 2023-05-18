@@ -1,6 +1,6 @@
 import 'package:coffee_shop/domain/concrete/drink_order.dart';
 import 'package:coffee_shop/domain/concrete/enums.dart';
-import 'package:coffee_shop/size_selector.dart';
+import 'package:coffee_shop/controls/size_selector.dart';
 import 'package:coffee_shop/viewmodels/new_order_viewmodel.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';

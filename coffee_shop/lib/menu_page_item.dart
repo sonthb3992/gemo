@@ -23,7 +23,8 @@ class SingleItemDisplay extends StatelessWidget {
           var result = await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OrderPage(order: DrinkOrder(menuOption)),
+              builder: (context) =>
+                  SafeArea(child: OrderPage(order: DrinkOrder(menuOption))),
             ),
           );
           if (result != null) {
