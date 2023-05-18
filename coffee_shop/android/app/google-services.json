@@ -29,6 +29,13 @@
             {
               "client_id": "64160194781-mclgqkqd1j9u5s8vorrvgobb4c30g5du.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "64160194781-p8tvgbjcr3b056uheltdeku5oa3avlah.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coffeeShop"
+              }
             }
           ]
         }
