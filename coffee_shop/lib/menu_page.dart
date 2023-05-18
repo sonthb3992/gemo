@@ -31,11 +31,29 @@ class _MenuPageState extends State<MenuPage> {
     });
   }
 
+  void _openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return const Column(
+          children: [
+            Text('Popup Content'),
+            // Add additional widgets as needed
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title), actions: [
         LanguageButton(setTitle),
+        FilledButton.icon(
+            onPressed: () => _openBottomSheet(context),
+            icon: const Icon(Icons.lock_open),
+            label: const Text("Test"))
       ]),
       drawer: CustomDrawer(
         //headerTitle: headerTitle,
