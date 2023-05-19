@@ -23,6 +23,26 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "coffee_shop_staff",
+            "cwd": "coffee_shop_staff",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "coffee_shop_staff (profile mode)",
+            "cwd": "coffee_shop_staff",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "coffee_shop_staff (release mode)",
+            "cwd": "coffee_shop_staff",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }
