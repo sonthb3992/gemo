@@ -1,5 +1,5 @@
 import 'package:coffee_shop/domain/base/oder_base.dart';
-import 'enums.dart';
+import 'menu_option.dart';
 
 /// This class represents an order in a coffee shop. The class extends the 'OrderBase' abstract class,
 /// so it needs to provide concrete implementations of the 'getDescription' and 'getPrice' methods.
@@ -16,7 +16,7 @@ class Order extends OrderBase {
   /// It returns the name of the menu option associated with this order.
   @override
   String getDescription() {
-    return _menuOption.name;
+    return _menuOption.nameEn;
   }
 
   /// This method overrides the 'getPrice' method of the 'OrderBase' interface.

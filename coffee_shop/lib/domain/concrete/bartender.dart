@@ -1,9 +1,13 @@
 import 'package:coffee_shop/domain/base/oder_base.dart';
-import 'package:coffee_shop/domain/concrete/breakfast_decorator.dart';
-import 'package:coffee_shop/domain/concrete/breakfast_order.dart';
-import 'package:coffee_shop/domain/concrete/drink_decorators.dart';
-import 'package:coffee_shop/domain/concrete/drink_order.dart';
-import 'package:coffee_shop/domain/concrete/enums.dart';
+import 'package:coffee_shop/domain/concrete/option_size.dart';
+import 'package:coffee_shop/domain/concrete/option_style.dart';
+import 'package:coffee_shop/domain/concrete/order.dart';
+import 'package:coffee_shop/domain/concrete/size_decorator.dart';
+import 'package:coffee_shop/domain/concrete/style_decorator.dart';
+import 'package:coffee_shop/domain/concrete/topping_decorator.dart';
+
+import 'menu_option.dart';
+import 'option_topping.dart';
 
 class Bartender {
   var orders = List<OrderBase>.empty(growable: true);
@@ -26,49 +30,20 @@ class Bartender {
     return sum;
   }
 
-  static OrderBase? buildOrder(
-      MenuOption menuOption,
-      DrinkTypeOption? drinkType,
-      DrinkSizeOption? drinkSize,
-      bool? hasWhippcream,
-      String milk,
-      bool? hasChocolateSauce,
-      int pumps,
-      bool? hasTurkey,
-      bool? hasCheeseCream) {
-    OrderBase? order;
-
-    //Build drink orders
-    if (menuOption.type == "drink") {
-      var drink = DrinkOrder(menuOption);
-      drink.drinkTypeOption = drinkType!;
-      drink.drinkSizeOption = drinkSize!;
-      order = drink;
-      order = hasWhippcream == true ? WhippedCreamDecorator(order) : order;
-      order = milk == "" ? order : MilkDecorator(order, milk == "almond");
-      order = hasChocolateSauce == true
-          ? ChocolateSauceDecorator(order, pumps)
-          : order;
+  static OrderBase? buildOrder(MenuOption menuOption, StyleOption? style,
+      SizeOption? size, List<Map<ToppingOption, int>>? toppings) {
+    OrderBase order = Order(menuOption);
+    if (style != null) {
+      order = StyleDecorator(order, style);
     }
-
-    bool hasEgg = hasTurkey == null || hasTurkey == false;
-    bool hasButter = hasCheeseCream == null || hasCheeseCream == false;
-
-    //Build breakfast orders
-    if (menuOption.type == "breakfast") {
-      var breakfast = BreakfastOrder(menuOption);
-      order = breakfast;
-      if (TurkeyDecorator.validItems.contains(order.getBaseItem().name)) {
-        order = hasTurkey == true ? TurkeyDecorator(order) : (order);
-      }
-      if (EggDecorator.validItems.contains(order.getBaseItem().name)) {
-        order = hasEgg == true ? EggDecorator(order) : (order);
-      }
-      if (ChesseCreamDecorator.validItems.contains(order.getBaseItem().name)) {
-        order = hasCheeseCream == true ? ChesseCreamDecorator(order) : (order);
-      }
-      if (ButterDecorator.validItems.contains(order.getBaseItem().name)) {
-        order = hasButter == true ? ButterDecorator(order) : (order);
+    if (size != null) {
+      order = SizeDecorator(order, size);
+    }
+    if (toppings != null) {
+      for (var map in toppings) {
+        if (map.keys.first != ToppingOption.empty) {
+          order = ToppingDecorator(order, map);
+        }
       }
     }
     return order;

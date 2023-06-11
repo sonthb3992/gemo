@@ -1,4 +1,4 @@
-import '../concrete/enums.dart';
+import '../concrete/menu_option.dart';
 
 /// Abstract class that represents an order.
 abstract class OrderBase {

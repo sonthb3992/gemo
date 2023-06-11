@@ -1,6 +1,7 @@
 import 'package:coffee_shop/localization/locale_data.dart';
 import 'package:coffee_shop/menu_page.dart';
 import 'package:coffee_shop/viewmodels/all_orders_viewmodel.dart';
+import 'package:coffee_shop/viewmodels/menu_page_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
@@ -29,8 +30,11 @@ class MyApp extends StatelessWidget {
       locale: const Locale("en", "US"),
       title: "Coffee Shop Ordering system",
       theme: ThemeData(primarySwatch: Colors.orange),
-      home: const SafeArea(
-        child: MenuPage(),
+      home: ChangeNotifierProvider(
+        create: (BuildContext context) => MenuPageViewmodel(context),
+        child: const SafeArea(
+          child: MenuPage(),
+        ),
       ),
     );
   }

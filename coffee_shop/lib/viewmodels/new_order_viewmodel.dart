@@ -1,45 +1,99 @@
 import 'package:coffee_shop/domain/base/oder_base.dart';
 import 'package:coffee_shop/domain/concrete/bartender.dart';
-import 'package:coffee_shop/domain/concrete/enums.dart';
+import 'package:coffee_shop/domain/concrete/option_size.dart';
+import 'package:coffee_shop/domain/concrete/option_style.dart';
+import 'package:coffee_shop/domain/concrete/option_topping.dart';
 import 'package:flutter/material.dart';
+
+import '../domain/concrete/menu_option.dart';
 
 class NewOrderState extends ChangeNotifier {
   // Your state variables
 
-  NewOrderState(this._baseOption);
+  NewOrderState(this._baseOption) {
+    loadAvailableStyles();
+    loadAvailableSizes();
+    loadAvailableToppings();
+  }
 
   final MenuOption _baseOption;
-  MenuOption getBaseItem() => _baseOption;
+  MenuOption get baseOption => _baseOption;
 
-  DrinkTypeOption _type = DrinkTypeOption.hot;
-  DrinkTypeOption getDrinkType() => _type;
-  void setDrinkType(DrinkTypeOption newValue) {
-    if (_type != newValue) {
-      _type = newValue;
+  List<StyleOption>? _availableStyles;
+  List<StyleOption>? get availableStyles => _availableStyles;
+
+  void loadAvailableStyles() async {
+    if (baseOption.availableStyles == null) {
+      return;
+    }
+    var allOptions = await StyleOption.getAll();
+
+    _availableStyles = allOptions
+        .where((element) =>
+            baseOption.availableStyles!.any((style) => style == element.nameEn))
+        .toList();
+    notifyListeners();
+  }
+
+  StyleOption? _selectedStyle;
+  StyleOption? get selectedStyle => _selectedStyle;
+  set selectedStyle(StyleOption? newValue) {
+    if (_selectedStyle != newValue) {
+      _selectedStyle = newValue;
       notifyListeners();
     }
   }
 
-  DrinkSizeOption _size = DrinkSizeOption.s;
-  DrinkSizeOption getDrinkSize() => _size;
-  void setDrinkSize(DrinkSizeOption newValue) {
-    if (_size != newValue) {
-      if (newValue == DrinkSizeOption.s ||
-          newValue == DrinkSizeOption.m ||
-          _type == DrinkTypeOption.cold ||
-          _type == DrinkTypeOption.blended) {
-        _size = newValue;
-        notifyListeners();
-      } else {
-        throw Exception("Unable to set size");
-      }
+  List<SizeOption>? _availableSizes;
+  List<SizeOption>? get availableSizes => _availableSizes;
+  void loadAvailableSizes() async {
+    if (baseOption.availableSizes == null) {
+      return;
     }
+
+    var allOptions = await SizeOption.getAll();
+
+    _availableSizes = allOptions
+        .where((element) =>
+            baseOption.availableSizes!.any((style) => style == element.nameEn))
+        .toList();
+
+    notifyListeners();
+  }
+
+  SizeOption? _selectedSize;
+  SizeOption? get selectedSize => _selectedSize;
+  set selectedSize(SizeOption? newValue) {
+    if (_selectedSize != newValue) {
+      _selectedSize = newValue;
+      notifyListeners();
+    }
+  }
+
+  List<ToppingOption>? _availableToppings;
+  List<ToppingOption>? get availableToppings => _availableToppings;
+  List<Map<ToppingOption, int>>? _selectedToppings;
+  List<Map<ToppingOption, int>>? get selectedToppings => _selectedToppings;
+
+  void loadAvailableToppings() async {
+    if (baseOption.availableToppings == null) {
+      return;
+    }
+    var allOptions = await ToppingOption.getAll();
+
+    _availableToppings = allOptions
+        .where((topping) => baseOption.availableToppings!
+            .any((toppingName) => toppingName == topping.nameEn))
+        .toList();
+
+    _selectedToppings = _availableToppings!.map((e) => {e: 0}).toList();
+    notifyListeners();
   }
 
   bool? _hasWhippedCream;
   bool? getHasWhippedCream() => _hasWhippedCream;
   void setWhippedCream(bool? value) {
-    if (getBaseItem().type != "drink") {
+    if (baseOption.type != "drink") {
       _hasWhippedCream = null;
       notifyListeners();
       return;
@@ -58,7 +112,7 @@ class NewOrderState extends ChangeNotifier {
   bool? _hasChocolateSauce;
   bool? hasChocolateSauce() => _hasChocolateSauce;
   void setHasChocolateSauce(bool? value) {
-    if (_type != DrinkTypeOption.hot) {
+    if (_selectedStyle!.nameEn == "hot") {
       _hasChocolateSauce = null;
       notifyListeners();
       return;
@@ -82,14 +136,9 @@ class NewOrderState extends ChangeNotifier {
 
   OrderBase? getOrder() => Bartender.buildOrder(
       _baseOption,
-      _type,
-      _size,
-      getHasWhippedCream(),
-      getMilk(),
-      hasChocolateSauce(),
-      getPumps(),
-      getHasTurkey(),
-      getHasCheeseCream());
+      _selectedStyle,
+      _selectedSize,
+      _selectedToppings?.where((element) => element.values.first > 0).toList());
 
   void sendToBartender() {
     var order = getOrder();
@@ -102,7 +151,7 @@ class NewOrderState extends ChangeNotifier {
   bool? _hasTurkey;
   bool? getHasTurkey() => _hasTurkey;
   void setHasTurkey(bool? value) {
-    if (getBaseItem().type != "breakfast") {
+    if (baseOption.type != "breakfast") {
       _hasTurkey = null;
       notifyListeners();
       return;
@@ -114,12 +163,24 @@ class NewOrderState extends ChangeNotifier {
   bool? _hasCheeseCream;
   bool? getHasCheeseCream() => _hasCheeseCream;
   void setHasCheeseCream(bool? value) {
-    if (getBaseItem().type != "breakfast") {
+    if (baseOption.type != "breakfast") {
       _hasCheeseCream = null;
       notifyListeners();
       return;
     }
     _hasCheeseCream = value;
+    notifyListeners();
+  }
+
+  void setSelectedTopping(
+      Map<ToppingOption, int> map, ToppingOption topping, int count) {
+    map[topping] = count;
+    notifyListeners();
+  }
+
+  void unsetSelectedTopping(
+      Map<ToppingOption, int> map, ToppingOption topping) {
+    map[topping] = 0;
     notifyListeners();
   }
 }

@@ -1,11 +1,11 @@
 import 'package:coffee_shop/controls/page_new_order_base_item.dart';
 import 'package:coffee_shop/controls/size_selector.dart';
-import 'package:coffee_shop/style_selector.dart';
-import 'package:coffee_shop/topping_selector.dart';
+import 'package:coffee_shop/controls/style_selector.dart';
 import 'package:coffee_shop/viewmodels/new_order_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'controls/topping_selector.dart';
 import 'domain/base/oder_base.dart';
 
 class OrderPage extends StatelessWidget {
@@ -49,7 +49,7 @@ class _NewOrderContentState extends State<NewOrderContent> {
     return Scaffold(
       appBar: AppBar(
         title: Text(isEn
-            ? widget.order.getBaseItem().name
+            ? widget.order.getBaseItem().nameEn
             : widget.order.getBaseItem().nameVi),
       ),
       body: ListView(children: [
@@ -99,12 +99,14 @@ class ContentOnLarge extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  if (orderBase.getType() == "drink")
+                  if (orderBase.getBaseItem().availableStyles != null &&
+                      orderBase.getBaseItem().availableStyles!.isNotEmpty)
                     SizedBox(
                       width: 400,
                       child: StyleSelector(orderBase),
                     ),
-                  if (orderBase.getType() == "drink")
+                  if (orderBase.getBaseItem().availableSizes != null &&
+                      orderBase.getBaseItem().availableSizes!.isNotEmpty)
                     SizedBox(
                       width: 400,
                       child: SizeSelector(orderBase),
@@ -142,13 +144,18 @@ class Content extends StatelessWidget {
                 order: orderBase,
                 maxWidth: 800,
               ),
-              if (orderBase.getType() == "drink")
-                const SizedBox(
-                  height: 10,
-                ),
-              if (orderBase.getType() == "drink") StyleSelector(orderBase),
-              if (orderBase.getType() == "drink") SizeSelector(orderBase),
-              ToppingSelector(orderBase),
+              const SizedBox(
+                height: 10,
+              ),
+              if (orderBase.getBaseItem().availableStyles != null &&
+                  orderBase.getBaseItem().availableSizes!.isNotEmpty)
+                StyleSelector(orderBase),
+              if (orderBase.getBaseItem().availableSizes != null &&
+                  orderBase.getBaseItem().availableSizes!.isNotEmpty)
+                SizeSelector(orderBase),
+              if (orderBase.getBaseItem().availableToppings != null &&
+                  orderBase.getBaseItem().availableToppings!.isNotEmpty)
+                ToppingSelector(orderBase),
             ],
           )),
         ),
@@ -157,16 +164,11 @@ class Content extends StatelessWidget {
   }
 }
 
-class TotalButton extends StatefulWidget {
+class TotalButton extends StatelessWidget {
   const TotalButton({
     super.key,
   });
 
-  @override
-  State<TotalButton> createState() => _TotalButtonState();
-}
-
-class _TotalButtonState extends State<TotalButton> {
   @override
   Widget build(BuildContext context) {
     var orderState = Provider.of<NewOrderState>(context);

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import 'domain/concrete/drink_order.dart';
-import 'domain/concrete/enums.dart';
+import 'domain/concrete/menu_option.dart';
+import 'domain/concrete/order.dart';
 import 'page_new_order.dart';
 
 class SingleItemDisplay extends StatelessWidget {
@@ -24,7 +24,7 @@ class SingleItemDisplay extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  SafeArea(child: OrderPage(order: DrinkOrder(menuOption))),
+                  SafeArea(child: OrderPage(order: Order(menuOption))),
             ),
           );
           if (result != null) {
@@ -36,14 +36,14 @@ class SingleItemDisplay extends StatelessWidget {
               ? Image(image: NetworkImage(menuOption.imageUrl))
               : const Icon(Icons.image_not_supported),
           title: Text(
-            isEng ? menuOption.name : menuOption.nameVi,
+            isEng ? menuOption.nameEn : menuOption.nameVi,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                isEng ? menuOption.type : menuOption.getViType(),
+                isEng ? menuOption.type : menuOption.type,
                 style:
                     const TextStyle(fontStyle: FontStyle.italic, fontSize: 18),
                 textAlign: TextAlign.start,

@@ -191,7 +191,7 @@ class _FinalItemDisplayState extends State<FinalItemDisplay> {
         ),
         title: Row(
           children: [
-            Expanded(child: Text(widget.order.getBaseItem().name)),
+            Expanded(child: Text(widget.order.getBaseItem().nameEn)),
             Text("\$${widget.order.getPrice().toStringAsFixed(2)}")
           ],
         ),

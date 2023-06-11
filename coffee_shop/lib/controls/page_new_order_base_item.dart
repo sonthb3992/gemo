@@ -37,7 +37,7 @@ class _BaseItemDisplayState extends State<BaseItemDisplay> {
               children: [
                 Text(
                   isEn
-                      ? widget.order.getBaseItem().name
+                      ? widget.order.getBaseItem().nameEn
                       : widget.order.getBaseItem().nameVi,
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold),

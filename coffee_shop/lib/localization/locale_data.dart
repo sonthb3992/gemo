@@ -11,6 +11,7 @@ class AppMessages extends Translations {
           "serving_style": "Serving Style",
           "price": "Price",
           "size": "Size",
+          "topping": "Topping"
         },
         "vi_VN": {
           "all_items": "Tất cả",
@@ -20,6 +21,7 @@ class AppMessages extends Translations {
           "serving_style": "Loại đồ uống",
           "price": "Giá",
           "size": "Cỡ",
+          "topping": "Topping"
         }
       };
 }
